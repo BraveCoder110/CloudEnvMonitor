@@ -25,5 +25,11 @@ CloudEnvMonitor/
 │   ├── test_active_buzzer.py   # 单独验证GPIO18和有源蜂鸣器。
 │   └── test_pir.py # PIR状态变化测试
 │
+├── config/
+│   ├── settings.json
+│
+├── services/
+│   ├── config_manager.py   # Azure最小连接测试。
+│
 └── README.md
 ```
