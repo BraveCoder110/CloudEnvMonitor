@@ -1,0 +1,6 @@
+{
+  "highTemperatureThreshold": 32.0,
+  "autoMode": true,
+  "buzzerEnabled": true,
+  "fanEnabled": true
+}
