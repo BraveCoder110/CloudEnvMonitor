@@ -1,12 +1,16 @@
 import time
 
 from cloud.azure_service import AzureService
-from cloud.thingsboard_service import ThingsBoardService
-from hardware.buzzer_controller import BuzzerController
+from hardware.buzzer_controller import (
+    BuzzerController,
+)
 from hardware.dht11_sensor import DHT11Sensor
 from hardware.led_controller import LEDController
 from services.config_manager import ConfigManager
-from services.edge_controller import EdgeController, SystemState
+from services.edge_controller import (
+    EdgeController,
+    SystemState,
+)
 
 
 READ_INTERVAL_SECONDS = 5
@@ -86,8 +90,6 @@ def main() -> None:
     azure = AzureService(
         desired_properties_handler
     )
-
-    thingsboard = ThingsBoardService()
 
     print("=" * 70)
     print(
@@ -251,24 +253,6 @@ def main() -> None:
                 f"Buzzer      : "
                 f"{buzzer_enabled}"
             )
-
-            if temperature is not None:
-                thingsboard_ok = thingsboard.send_telemetry(
-                    temperature=temperature,
-                    humidity=humidity,
-                    state=state.value,
-                    threshold=threshold,
-                )
-
-                print(
-                    f"ThingsBoard : "
-                    f"{'UPLOAD SUCCESS' if thingsboard_ok else 'UPLOAD FAILED'}"
-                )
-            else:
-                print(
-                    "ThingsBoard : SKIPPED "
-                    "(sensor data unavailable)"
-                )
 
             time.sleep(
                 READ_INTERVAL_SECONDS

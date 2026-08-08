@@ -33,8 +33,7 @@ class ThingsBoardService:
 
         if not self.token:
             raise RuntimeError(
-                "THINGSBOARD_DEVICE_TOKEN "
-                "is missing."
+                "THINGSBOARD_DEVICE_TOKEN is missing."
             )
 
     def send_telemetry(
@@ -42,7 +41,8 @@ class ThingsBoardService:
             temperature: float,
             humidity: float,
             state: str,
-    ) -> None:
+            threshold: float,
+    ) -> bool:
         url = (
             f"{self.host}/api/v1/"
             f"{self.token}/telemetry"
@@ -51,13 +51,25 @@ class ThingsBoardService:
         payload = {
             "Actual_Temperature_C": temperature,
             "Actual_Humidity_Percent": humidity,
-            "state": state,
+            "System_State": state,
+            "High_Temperature_Threshold_C": threshold,
         }
 
-        response = requests.post(
-            url,
-            json=payload,
-            timeout=10,
-        )
+        try:
+            response = requests.post(
+                url,
+                json=payload,
+                timeout=5,
+            )
 
-        response.raise_for_status()
+            response.raise_for_status()
+
+            return True
+
+        except requests.RequestException as error:
+            print(
+                "ThingsBoard upload failed: "
+                f"{type(error).__name__}: {error}"
+            )
+
+            return False
