@@ -1,33 +1,21 @@
 import time
-from datetime import datetime, timezone
 
 from cloud.azure_service import AzureService
 from cloud.thingsboard_service import ThingsBoardService
-from database.sqlite_service import SQLiteService
 from hardware.buzzer_controller import BuzzerController
 from hardware.dht11_sensor import DHT11Sensor
 from hardware.fan_controller import FanController
 from hardware.led_controller import LEDController
-from services.cloud_sync_service import CloudSyncService
 from services.config_manager import ConfigManager
 from services.edge_controller import EdgeController, SystemState
 
-
-DEVICE_ID = "stanfort-cloud-device"
 
 READ_INTERVAL_SECONDS = 5
 DEFAULT_FAN_SPEED_LEVEL = 2
 
 
 config = ConfigManager()
-
 previous_state = None
-
-
-def utc_timestamp() -> str:
-    return datetime.now(
-        timezone.utc
-    ).isoformat()
 
 
 def desired_properties_handler(
@@ -39,14 +27,10 @@ def desired_properties_handler(
 
     old_config = config.get_all()
 
-    accepted = config.update(
-        patch
-    )
+    accepted = config.update(patch)
 
     if not accepted:
-        print(
-            "No supported configuration changes."
-        )
+        print("No supported configuration changes.")
         print("=" * 65)
         return
 
@@ -85,10 +69,8 @@ def print_state_change(
     print("\n" + "=" * 65)
 
     if (
-            old_state
-            == SystemState.HIGH_TEMPERATURE
-            and new_state
-            == SystemState.NORMAL
+            old_state == SystemState.HIGH_TEMPERATURE
+            and new_state == SystemState.NORMAL
     ):
         print("STATE RECOVERED")
     else:
@@ -102,23 +84,13 @@ def print_state_change(
     print("=" * 65)
 
 
-def apply_outputs(
+def handle_state_outputs(
         state: SystemState,
         old_state,
         led: LEDController,
         buzzer: BuzzerController,
         fan: FanController,
-) -> tuple[bool, bool]:
-    """
-    Apply edge-control actions.
-
-    Returns:
-        led_on
-        buzzer_triggered
-
-    buzzer_triggered represents whether the buzzer
-    actually sounded during THIS cycle.
-    """
+) -> None:
 
     auto_mode = bool(
         config.get(
@@ -141,10 +113,7 @@ def apply_outputs(
         )
     )
 
-    # -------------------------------------------------
-    # Automatic control disabled
-    # -------------------------------------------------
-
+    # Manual/disabled automatic control
     if not auto_mode:
         led.off()
         buzzer.off()
@@ -152,12 +121,9 @@ def apply_outputs(
         if fan.power_on:
             fan.turn_off()
 
-        return False, False
+        return
 
-    # -------------------------------------------------
     # NORMAL
-    # -------------------------------------------------
-
     if state == SystemState.NORMAL:
         led.normal()
         buzzer.off()
@@ -170,18 +136,13 @@ def apply_outputs(
 
             fan.turn_off()
 
-        return False, False
+        return
 
-    # -------------------------------------------------
     # HIGH TEMPERATURE
-    # -------------------------------------------------
-
     if state == SystemState.HIGH_TEMPERATURE:
         led.alarm()
 
-        buzzer_triggered = False
-
-        # Only beep when entering high-temperature state
+        # Buzzer only when ENTERING alarm state
         if (
                 old_state
                 != SystemState.HIGH_TEMPERATURE
@@ -195,8 +156,6 @@ def apply_outputs(
             buzzer.alarm(
                 duration=0.5,
             )
-
-            buzzer_triggered = True
 
         if fan_enabled:
             if not fan.power_on:
@@ -225,12 +184,9 @@ def apply_outputs(
 
                 fan.turn_off()
 
-        return True, buzzer_triggered
+        return
 
-    # -------------------------------------------------
     # SENSOR ERROR
-    # -------------------------------------------------
-
     led.off()
     buzzer.off()
 
@@ -242,30 +198,14 @@ def apply_outputs(
 
         fan.turn_off()
 
-    return False, False
-
 
 def main() -> None:
     global previous_state
-
-    # -------------------------------------------------
-    # Hardware
-    # -------------------------------------------------
 
     sensor = DHT11Sensor()
     led = LEDController()
     buzzer = BuzzerController()
     fan = FanController()
-
-    # -------------------------------------------------
-    # Database
-    # -------------------------------------------------
-
-    database = SQLiteService()
-
-    # -------------------------------------------------
-    # Cloud
-    # -------------------------------------------------
 
     azure = AzureService(
         desired_properties_handler
@@ -273,49 +213,32 @@ def main() -> None:
 
     thingsboard = ThingsBoardService()
 
-    cloud_sync = CloudSyncService(
-        database=database,
-        azure=azure,
-        thingsboard=thingsboard,
-    )
-
-    print("=" * 74)
+    print("=" * 72)
     print(
-        "Azure + ThingsBoard Edge-Cloud "
-        "Environmental Control System"
+        "Azure Edge-Cloud Environmental "
+        "Control System"
     )
-    print("Production Architecture V3")
-    print("SQLite Dual-Cloud Queue Enabled")
-    print("=" * 74)
+    print("Production Architecture V2")
+    print("=" * 72)
 
     try:
-        # -------------------------------------------------
-        # Azure initial connection
-        # -------------------------------------------------
-
         print(
             "Connecting to Azure IoT Hub..."
         )
 
-        azure_online = azure.connect()
+        azure.connect()
 
-        if azure_online:
-            try:
-                desired = (
-                    azure
-                    .get_desired_properties()
-                )
+        print(
+            "Azure connection: ONLINE"
+        )
 
-                config.update(
-                    desired
-                )
+        desired = (
+            azure.get_desired_properties()
+        )
 
-            except Exception as error:
-                print(
-                    "Azure Device Twin read failed: "
-                    f"{type(error).__name__}: "
-                    f"{error}"
-                )
+        config.update(
+            desired
+        )
 
         print(
             "\nActive configuration:"
@@ -343,24 +266,9 @@ def main() -> None:
             "Press Ctrl+C to stop."
         )
 
-        print("=" * 74)
-
-        # =================================================
-        # MAIN LOOP
-        # =================================================
+        print("=" * 72)
 
         while True:
-            print(
-                "\n"
-                + datetime.now().strftime(
-                    "[%Y-%m-%d %H:%M:%S]"
-                )
-            )
-
-            # ---------------------------------------------
-            # Sensor
-            # ---------------------------------------------
-
             reading = sensor.read()
 
             threshold = float(
@@ -373,16 +281,8 @@ def main() -> None:
             if reading is None:
                 temperature = None
                 humidity = None
-
             else:
-                (
-                    temperature,
-                    humidity,
-                ) = reading
-
-            # ---------------------------------------------
-            # Edge state
-            # ---------------------------------------------
+                temperature, humidity = reading
 
             state = (
                 EdgeController
@@ -399,14 +299,7 @@ def main() -> None:
                 state,
             )
 
-            # ---------------------------------------------
-            # Physical outputs
-            # ---------------------------------------------
-
-            (
-                led_on,
-                buzzer_triggered,
-            ) = apply_outputs(
+            handle_state_outputs(
                 state=state,
                 old_state=old_state,
                 led=led,
@@ -415,12 +308,6 @@ def main() -> None:
             )
 
             previous_state = state
-
-            fan_status = fan.status()
-
-            # ---------------------------------------------
-            # Display current state
-            # ---------------------------------------------
 
             print(
                 "\n----------------------------------------"
@@ -458,13 +345,20 @@ def main() -> None:
 
             print(
                 f"LED         : "
-                f"{'ON' if led_on else 'OFF'}"
+                f"{'ON' if state == SystemState.HIGH_TEMPERATURE else 'OFF'}"
             )
 
             print(
-                f"Buzzer Event: "
-                f"{buzzer_triggered}"
+                f"Auto Mode   : "
+                f"{config.get('autoMode')}"
             )
+
+            print(
+                f"Buzzer      : "
+                f"{config.get('buzzerEnabled')}"
+            )
+
+            fan_status = fan.status()
 
             print(
                 f"Fan Power   : "
@@ -476,63 +370,31 @@ def main() -> None:
                 f"{fan_status['speedLevel']}"
             )
 
-            # ---------------------------------------------
-            # Save FIRST to SQLite
-            # ---------------------------------------------
+            print(
+                f"Oscillation : "
+                f"{fan_status['oscillationOn']}"
+            )
 
-            payload = {
-                "deviceId": DEVICE_ID,
-                "temperature": temperature,
-                "humidity": humidity,
-                "state": state.value,
-                "led": led_on,
-                "buzzer": buzzer_triggered,
-                "timestamp": utc_timestamp(),
-            }
-
-            record_id = (
-                database.save_telemetry(
-                    payload
+            if temperature is not None:
+                thingsboard_ok = (
+                    thingsboard.send_telemetry(
+                        temperature=temperature,
+                        humidity=humidity,
+                        state=state.value,
+                        threshold=threshold,
+                    )
                 )
-            )
 
-            print(
-                f"\nSQLite save : SUCCESS "
-                f"(Record {record_id})"
-            )
+                print(
+                    f"ThingsBoard : "
+                    f"{'UPLOAD SUCCESS' if thingsboard_ok else 'UPLOAD FAILED'}"
+                )
 
-            # ---------------------------------------------
-            # Dual-cloud synchronization
-            # ---------------------------------------------
-
-            cloud_sync.sync_all()
-
-            # ---------------------------------------------
-            # Current queue status
-            # ---------------------------------------------
-
-            queue_status = (
-                database.count_status()
-            )
-
-            print(
-                "\nQueue summary:"
-            )
-
-            print(
-                f"Total records       : "
-                f"{queue_status['total']}"
-            )
-
-            print(
-                f"Azure pending       : "
-                f"{queue_status['azurePending']}"
-            )
-
-            print(
-                f"ThingsBoard pending : "
-                f"{queue_status['thingsboardPending']}"
-            )
+            else:
+                print(
+                    "ThingsBoard : SKIPPED "
+                    "(sensor unavailable)"
+                )
 
             time.sleep(
                 READ_INTERVAL_SECONDS
