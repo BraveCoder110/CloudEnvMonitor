@@ -269,11 +269,12 @@ def apply_outputs(
                 "Triggering buzzer once..."
             )
 
-            buzzer.alarm(
+            alarm_started = buzzer.alarm_async(
                 duration=0.5
             )
 
-            buzzer_triggered = True
+            if alarm_started:
+                buzzer_triggered = True
 
         # ----------------------------------------------------
         # 自动风扇控制

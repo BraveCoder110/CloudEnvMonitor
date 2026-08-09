@@ -1,22 +1,18 @@
 """
-E1 Edge Response Time Experiment
+Optimized Edge Response Time Experiment
 
-Purpose
--------
-Measure the software-side edge control latency when the
-temperature condition changes into HIGH_TEMPERATURE.
+This experiment evaluates the optimized actuator-control
+architecture.
 
-Important
----------
-This experiment measures command-processing latency on the
-Raspberry Pi.
+Optimizations:
+1. LED executes immediately.
+2. Buzzer executes asynchronously.
+3. Fan cooling command is prioritized.
+4. IR commands maintain a minimum safe command gap.
+5. No unnecessary delay is added after the final IR command.
 
-It does NOT claim to measure the physical motor spin-up time
-of the fan because the fan does not provide feedback.
-
-Output
-------
-experiments/results/edge_response.csv
+This measures Raspberry Pi actuator COMMAND latency.
+It does not measure physical fan motor spin-up latency.
 """
 
 import csv
@@ -24,9 +20,15 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-from hardware.buzzer_controller import BuzzerController
-from hardware.fan_controller import FanController
-from hardware.led_controller import LEDController
+from hardware.buzzer_controller import (
+    BuzzerController,
+)
+from hardware.fan_controller import (
+    FanController,
+)
+from hardware.led_controller import (
+    LEDController,
+)
 
 
 PROJECT_ROOT = (
@@ -38,19 +40,16 @@ RESULT_PATH = (
         PROJECT_ROOT
         / "experiments"
         / "results"
-        / "edge_response.csv"
+        / "edge_response_optimized.csv"
 )
 
 
 NUMBER_OF_TRIALS = 10
+
 WAIT_BETWEEN_TRIALS_SECONDS = 3
 
 
 def ensure_csv() -> None:
-    """
-    Create the result CSV with a header if it does not exist.
-    """
-
     RESULT_PATH.parent.mkdir(
         parents=True,
         exist_ok=True,
@@ -65,14 +64,16 @@ def ensure_csv() -> None:
             encoding="utf-8",
     ) as file:
 
-        writer = csv.writer(file)
+        writer = csv.writer(
+            file
+        )
 
         writer.writerow(
             [
                 "trial",
                 "timestamp",
                 "led_latency_ms",
-                "buzzer_latency_ms",
+                "buzzer_start_latency_ms",
                 "fan_power_latency_ms",
                 "fan_level2_latency_ms",
                 "total_control_latency_ms",
@@ -88,16 +89,18 @@ def run_trial(
         fan: FanController,
 ) -> None:
 
-    print("\n" + "=" * 70)
+    print("\n" + "=" * 72)
+
     print(
-        f"EDGE RESPONSE EXPERIMENT "
+        f"OPTIMIZED EDGE RESPONSE "
         f"- TRIAL {trial_number}"
     )
-    print("=" * 70)
 
-    # -------------------------------------------------------
-    # Each experiment must begin from a known state.
-    # -------------------------------------------------------
+    print("=" * 72)
+
+    # ------------------------------------------------------
+    # Known initial state
+    # ------------------------------------------------------
 
     led.off()
     buzzer.off()
@@ -105,77 +108,91 @@ def run_trial(
     if fan.power_on:
         fan.turn_off()
 
+    # Give the physical fan a little time to settle.
     time.sleep(1)
 
     print(
-        "Make sure the physical fan is OFF."
+        "Starting optimized "
+        "HIGH_TEMPERATURE event..."
     )
 
-    print(
-        "Starting simulated HIGH_TEMPERATURE "
-        "edge event..."
+    # ------------------------------------------------------
+    # Start timer
+    # ------------------------------------------------------
+
+    start_time = (
+        time.perf_counter()
     )
-
-    # -------------------------------------------------------
-    # Start timing.
-    #
-    # This represents the moment the edge controller has
-    # determined that a high-temperature event exists.
-    # -------------------------------------------------------
-
-    start_time = time.perf_counter()
 
     success = True
 
-    # -------------------------------------------------------
-    # LED
-    # -------------------------------------------------------
+    # ------------------------------------------------------
+    # LED - immediate local warning
+    # ------------------------------------------------------
 
     led.alarm()
 
-    led_done = time.perf_counter()
-
-    # -------------------------------------------------------
-    # Buzzer
-    # -------------------------------------------------------
-
-    buzzer.alarm(
-        duration=0.5
+    led_done = (
+        time.perf_counter()
     )
 
-    buzzer_done = time.perf_counter()
+    # ------------------------------------------------------
+    # Buzzer - NON-BLOCKING
+    # ------------------------------------------------------
 
-    # -------------------------------------------------------
-    # Fan power
-    # -------------------------------------------------------
+    buzzer_started = (
+        buzzer.alarm_async(
+            duration=0.5
+        )
+    )
+
+    buzzer_start_done = (
+        time.perf_counter()
+    )
+
+    if not buzzer_started:
+        success = False
+
+    # ------------------------------------------------------
+    # Fan POWER gets priority.
+    #
+    # We do NOT wait for the buzzer to complete.
+    # ------------------------------------------------------
 
     if not fan.turn_on():
         success = False
 
-    fan_power_done = time.perf_counter()
+    fan_power_done = (
+        time.perf_counter()
+    )
 
-    # -------------------------------------------------------
-    # Fan target level = 2
-    # -------------------------------------------------------
+    # ------------------------------------------------------
+    # Set fan to level 2.
+    #
+    # FanController internally enforces the minimum
+    # IR command spacing.
+    # ------------------------------------------------------
 
     if not fan.set_speed(2):
         success = False
 
-    fan_level2_done = time.perf_counter()
+    fan_level2_done = (
+        time.perf_counter()
+    )
 
-    # -------------------------------------------------------
-    # Calculate latency
-    # -------------------------------------------------------
+    # ------------------------------------------------------
+    # Calculate command latencies
+    # ------------------------------------------------------
 
     led_latency_ms = (
                              led_done
                              - start_time
                      ) * 1000
 
-    buzzer_latency_ms = (
-                                buzzer_done
-                                - start_time
-                        ) * 1000
+    buzzer_start_latency_ms = (
+                                      buzzer_start_done
+                                      - start_time
+                              ) * 1000
 
     fan_power_latency_ms = (
                                    fan_power_done
@@ -187,14 +204,14 @@ def run_trial(
                                     - start_time
                             ) * 1000
 
-    total_latency_ms = (
-                               fan_level2_done
-                               - start_time
-                       ) * 1000
+    total_control_latency_ms = (
+                                       fan_level2_done
+                                       - start_time
+                               ) * 1000
 
-    # -------------------------------------------------------
-    # Print result
-    # -------------------------------------------------------
+    # ------------------------------------------------------
+    # Display
+    # ------------------------------------------------------
 
     print(
         f"LED command latency       : "
@@ -202,8 +219,8 @@ def run_trial(
     )
 
     print(
-        f"Buzzer complete latency   : "
-        f"{buzzer_latency_ms:.2f} ms"
+        f"Buzzer start latency      : "
+        f"{buzzer_start_latency_ms:.2f} ms"
     )
 
     print(
@@ -218,7 +235,7 @@ def run_trial(
 
     print(
         f"Total control latency     : "
-        f"{total_latency_ms:.2f} ms"
+        f"{total_control_latency_ms:.2f} ms"
     )
 
     print(
@@ -226,9 +243,9 @@ def run_trial(
         f"{'SUCCESS' if success else 'FAILED'}"
     )
 
-    # -------------------------------------------------------
-    # Save result
-    # -------------------------------------------------------
+    # ------------------------------------------------------
+    # Save
+    # ------------------------------------------------------
 
     with RESULT_PATH.open(
             "a",
@@ -236,7 +253,9 @@ def run_trial(
             encoding="utf-8",
     ) as file:
 
-        writer = csv.writer(file)
+        writer = csv.writer(
+            file
+        )
 
         writer.writerow(
             [
@@ -247,7 +266,7 @@ def run_trial(
                     3,
                 ),
                 round(
-                    buzzer_latency_ms,
+                    buzzer_start_latency_ms,
                     3,
                 ),
                 round(
@@ -259,18 +278,22 @@ def run_trial(
                     3,
                 ),
                 round(
-                    total_latency_ms,
+                    total_control_latency_ms,
                     3,
                 ),
                 success,
             ]
         )
 
-    # -------------------------------------------------------
-    # Return system to NORMAL
-    # -------------------------------------------------------
+    # ------------------------------------------------------
+    # Return to NORMAL
+    # ------------------------------------------------------
 
     led.off()
+
+    # Allow async buzzer to finish before next trial.
+    time.sleep(0.6)
+
     buzzer.off()
 
     if fan.power_on:
@@ -282,15 +305,14 @@ def main() -> None:
     ensure_csv()
 
     led = LEDController()
-
     buzzer = BuzzerController()
-
     fan = FanController()
 
-    print("=" * 70)
+    print("=" * 72)
 
     print(
-        "Edge Control Command Latency Experiment"
+        "Optimized Edge Control "
+        "Command Latency Experiment"
     )
 
     print(
@@ -301,7 +323,7 @@ def main() -> None:
         f"Output: {RESULT_PATH}"
     )
 
-    print("=" * 70)
+    print("=" * 72)
 
     try:
 

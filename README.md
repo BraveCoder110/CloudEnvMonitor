@@ -31,5 +31,13 @@ CloudEnvMonitor/
 ├── services/
 │   ├── config_manager.py   # Azure最小连接测试。
 │
+├── hardware/
+│   ├── buzzer_controller_before_optimization.py # Baseline备份
+│   ├── fan_controller_before_optimization.py # Baseline备份
+│
+│
 └── README.md
 ```
+
+
+

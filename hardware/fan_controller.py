@@ -1,18 +1,30 @@
+"""
+fan_controller.py
+
+Infrared fan controller using Linux ir-ctl.
+
+Remote protocol:
+    NEC
+
+Learned commands:
+    POWER       -> 0x45
+    SPEED_UP    -> 0x15
+    SPEED_DOWN  -> 0x18
+    OSCILLATION -> 0x07
+
+Optimization:
+Instead of sleeping AFTER every IR command, the controller
+only enforces a minimum interval BEFORE the next command.
+
+This preserves reliable IR command spacing while avoiding
+an unnecessary delay after the final command.
+"""
+
 import subprocess
 import time
 
 
 class FanController:
-    """
-    Infrared fan controller using Linux ir-ctl.
-
-    Current remote codes:
-        POWER       -> NEC 0x45
-        SPEED_UP    -> NEC 0x15
-        SPEED_DOWN  -> NEC 0x18
-        OSCILLATION -> NEC 0x07
-    """
-
     IR_DEVICE = "/dev/lirc0"
 
     POWER_CODE = "nec:0x45"
@@ -20,18 +32,59 @@ class FanController:
     SPEED_DOWN_CODE = "nec:0x18"
     OSCILLATION_CODE = "nec:0x07"
 
-    COMMAND_DELAY_SECONDS = 0.5
+    # Minimum interval between two IR commands.
+    MIN_COMMAND_GAP_SECONDS = 0.5
 
     def __init__(self) -> None:
-        # 软件状态，只代表树莓派“认为”的风扇状态。
+        # Software-estimated state.
+        #
+        # Important:
+        # The physical fan provides no feedback.
+        # Therefore the fan must physically be OFF when
+        # the application starts.
         self.power_on = False
         self.speed_level = 1
         self.oscillation_on = False
 
-    def _send_ir(self, code: str) -> bool:
+        self._last_ir_command_time = None
+
+    def _wait_for_command_gap(
+            self,
+    ) -> None:
         """
-        Send one IR command using ir-ctl.
+        Ensure sufficient spacing between consecutive
+        infrared commands.
+
+        There is no delay after the FINAL command.
         """
+
+        if self._last_ir_command_time is None:
+            return
+
+        elapsed = (
+                time.perf_counter()
+                - self._last_ir_command_time
+        )
+
+        remaining = (
+                self.MIN_COMMAND_GAP_SECONDS
+                - elapsed
+        )
+
+        if remaining > 0:
+            time.sleep(
+                remaining
+            )
+
+    def _send_ir(
+            self,
+            code: str,
+    ) -> bool:
+        """
+        Send one NEC infrared command.
+        """
+
+        self._wait_for_command_gap()
 
         command = [
             "sudo",
@@ -51,20 +104,25 @@ class FanController:
                 check=False,
             )
 
-            if result.returncode == 0:
-                time.sleep(
-                    self.COMMAND_DELAY_SECONDS
+            if result.returncode != 0:
+                print(
+                    "IR send failed:",
+                    result.stderr.strip(),
                 )
-                return True
+                return False
 
-            print(
-                "IR send failed:",
-                result.stderr.strip(),
+            # Record the time when this IR command has
+            # successfully completed.
+            self._last_ir_command_time = (
+                time.perf_counter()
             )
-            return False
+
+            return True
 
         except subprocess.TimeoutExpired:
-            print("IR send timeout.")
+            print(
+                "IR send timeout."
+            )
             return False
 
         except Exception as error:
@@ -76,52 +134,57 @@ class FanController:
             return False
 
     def turn_on(self) -> bool:
-        """
-        Turn fan on if software state says it is off.
-        """
-
         if self.power_on:
-            print("Fan already ON.")
-            return True
-
-        print("Sending FAN POWER ON...")
-
-        if self._send_ir(
-                self.POWER_CODE
-        ):
-            self.power_on = True
-            self.speed_level = 1
-
             print(
-                "Fan state: ON, "
-                "assumed speed level 1."
+                "Fan already ON."
             )
             return True
 
-        return False
+        print(
+            "Sending FAN POWER ON..."
+        )
 
-    def turn_off(self) -> bool:
-        """
-        Turn fan off if software state says it is on.
-        """
-
-        if not self.power_on:
-            print("Fan already OFF.")
-            return True
-
-        print("Sending FAN POWER OFF...")
-
-        if self._send_ir(
+        if not self._send_ir(
                 self.POWER_CODE
         ):
-            self.power_on = False
-            self.speed_level = 1
-            self.oscillation_on = False
+            return False
 
-            print("Fan state: OFF.")
+        self.power_on = True
+        self.speed_level = 1
+        self.oscillation_on = False
+
+        print(
+            "Fan state: ON, "
+            "assumed speed level 1."
+        )
+
+        return True
+
+    def turn_off(self) -> bool:
+        if not self.power_on:
+            print(
+                "Fan already OFF."
+            )
             return True
 
-        return False
+        print(
+            "Sending FAN POWER OFF..."
+        )
+
+        if not self._send_ir(
+                self.POWER_CODE
+        ):
+            return False
+
+        self.power_on = False
+        self.speed_level = 1
+        self.oscillation_on = False
+
+        print(
+            "Fan state: OFF."
+        )
+
+        return True
 
     def speed_up(self) -> bool:
         if not self.power_on:
@@ -137,19 +200,23 @@ class FanController:
             )
             return True
 
-        print(
-            f"Fan speed: "
-            f"{self.speed_level} -> "
-            f"{self.speed_level + 1}"
+        target = (
+                self.speed_level + 1
         )
 
-        if self._send_ir(
+        print(
+            f"Fan speed: "
+            f"{self.speed_level} -> {target}"
+        )
+
+        if not self._send_ir(
                 self.SPEED_UP_CODE
         ):
-            self.speed_level += 1
-            return True
+            return False
 
-        return False
+        self.speed_level = target
+
+        return True
 
     def speed_down(self) -> bool:
         if not self.power_on:
@@ -165,25 +232,33 @@ class FanController:
             )
             return True
 
-        print(
-            f"Fan speed: "
-            f"{self.speed_level} -> "
-            f"{self.speed_level - 1}"
+        target = (
+                self.speed_level - 1
         )
 
-        if self._send_ir(
+        print(
+            f"Fan speed: "
+            f"{self.speed_level} -> {target}"
+        )
+
+        if not self._send_ir(
                 self.SPEED_DOWN_CODE
         ):
-            self.speed_level -= 1
-            return True
+            return False
 
-        return False
+        self.speed_level = target
+
+        return True
 
     def set_speed(
             self,
             target_level: int,
     ) -> bool:
-        if target_level not in (1, 2, 3):
+        if target_level not in (
+                1,
+                2,
+                3,
+        ):
             print(
                 "Invalid fan speed level. "
                 "Use 1, 2, or 3."
@@ -215,7 +290,9 @@ class FanController:
 
         return True
 
-    def toggle_oscillation(self) -> bool:
+    def toggle_oscillation(
+            self,
+    ) -> bool:
         if not self.power_on:
             print(
                 "Cannot toggle oscillation: "
@@ -227,29 +304,30 @@ class FanController:
             "Toggling fan oscillation..."
         )
 
-        if self._send_ir(
+        if not self._send_ir(
                 self.OSCILLATION_CODE
         ):
-            self.oscillation_on = (
-                not self.oscillation_on
-            )
+            return False
 
-            print(
-                "Oscillation:",
-                "ON"
-                if self.oscillation_on
-                else "OFF",
-            )
+        self.oscillation_on = (
+            not self.oscillation_on
+        )
 
-            return True
+        print(
+            "Oscillation:",
+            "ON"
+            if self.oscillation_on
+            else "OFF",
+        )
 
-        return False
+        return True
 
-    def status(self) -> dict:
+    def status(
+            self,
+    ) -> dict:
         return {
             "powerOn": self.power_on,
             "speedLevel": self.speed_level,
-            "oscillationOn": (
-                self.oscillation_on
-            ),
+            "oscillationOn":
+                self.oscillation_on,
         }
