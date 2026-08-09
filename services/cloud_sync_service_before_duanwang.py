@@ -50,15 +50,6 @@ class CloudSyncService:
             f"{len(rows)} pending record(s)"
         )
 
-        if not self.azure.connected:
-            if not self.azure.reconnect():
-                print(
-                    "Azure still offline. "
-                    "Pending records retained."
-                )
-
-                return 0, len(rows)
-
         success_count = 0
         failure_count = 0
 

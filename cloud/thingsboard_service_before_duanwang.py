@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 from pathlib import Path
 
 import requests
@@ -34,23 +33,9 @@ class ThingsBoardService:
 
         if not self.token:
             raise RuntimeError(
-                "THINGSBOARD_DEVICE_TOKEN is missing."
+                "THINGSBOARD_DEVICE_TOKEN "
+                "is missing."
             )
-
-    @staticmethod
-    def iso_to_milliseconds(
-            timestamp: str,
-    ) -> int:
-        dt = datetime.fromisoformat(
-            timestamp.replace(
-                "Z",
-                "+00:00",
-            )
-        )
-
-        return int(
-            dt.timestamp() * 1000
-        )
 
     def send_telemetry(
             self,
@@ -61,7 +46,8 @@ class ThingsBoardService:
             f"{self.token}/telemetry"
         )
 
-        values = {
+        # ThingsBoard正式字段规范
+        tb_payload = {
             "Actual_Temperature_C":
                 payload["temperature"],
 
@@ -73,20 +59,13 @@ class ThingsBoardService:
 
             "Record_ID":
                 payload["recordId"],
-
-            "LED_Active":
-                payload["led"],
-
-            "Buzzer_Event":
-                payload["buzzer"],
         }
 
-        tb_payload = {
-            "ts": self.iso_to_milliseconds(
-                payload["timestamp"]
-            ),
-            "values": values,
-        }
+        # 阈值以后如果payload里存在，也一起发送
+        if "threshold" in payload:
+            tb_payload[
+                "High_Temperature_Threshold_C"
+            ] = payload["threshold"]
 
         try:
             response = requests.post(
