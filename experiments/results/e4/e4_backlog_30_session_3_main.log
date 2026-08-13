@@ -1,0 +1,1544 @@
+
+====================================================================
+CLOUD CONFIGURATION UPDATE RECEIVED
+====================================================================
+Configuration received, but no effective values changed.
+====================================================================
+============================================================================
+Azure + ThingsBoard Edge-Cloud Environmental Control System
+Production Architecture V5
+Edge / Cloud communication decoupled
+SQLite dual-cloud queue enabled
+============================================================================
+
+Local edge system starting...
+Cloud connection will be handled by background worker.
+
+Active local configuration:
+{'highTemperatureThreshold': 29.0, 'autoMode': True, 'buzzerEnabled': True, 'fanEnabled': True}
+
+IMPORTANT:
+Physical fan must be OFF before starting this program.
+Background cloud sync: STARTED
+
+--- Dual-cloud sync ---
+Background cloud synchronization started.
+Main edge-control loop started.
+
+Press Ctrl+C to stop.
+============================================================================
+
+
+############################################################################
+[2026-08-12 13:53:51] EDGE CYCLE
+############################################################################
+Azure queue: empty
+ThingsBoard queue: empty
+Sync result:
+Azure      : success=0, failed=0
+ThingsBoard: success=0, failed=0
+Database   : total=0, azurePending=0, thingsboardPending=0
+  DHT11 attempt 1/5 failed: Checksum did not validate. Try again.
+
+--- Edge status ---
+Temperature : 26.9 °C
+Humidity    : 52.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 1)
+
+--- Cloud queue status ---
+Total records       : 1
+Azure pending       : 1
+ThingsBoard pending : 1
+
+Next edge cycle in 5 seconds...
+
+--- Dual-cloud sync ---
+Azure queue: 1 pending record(s)
+Attempting Azure reconnection...
+
+====================================================================
+CLOUD CONFIGURATION UPDATE RECEIVED
+====================================================================
+Configuration received, but no effective values changed.
+====================================================================
+Azure connection: ONLINE
+  Azure Record 1: SUCCESS
+ThingsBoard queue: 1 pending record(s)
+  ThingsBoard Record 1: SUCCESS
+Sync result:
+Azure      : success=1, failed=0
+ThingsBoard: success=1, failed=0
+Database   : total=1, azurePending=0, thingsboardPending=0
+
+
+############################################################################
+[2026-08-12 13:53:58] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.7 °C
+Humidity    : 52.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 2)
+
+--- Cloud queue status ---
+Total records       : 2
+Azure pending       : 1
+ThingsBoard pending : 1
+
+Next edge cycle in 5 seconds...
+
+--- Dual-cloud sync ---
+Azure queue: 1 pending record(s)
+  Azure Record 2: SUCCESS
+ThingsBoard queue: 1 pending record(s)
+  ThingsBoard Record 2: SUCCESS
+Sync result:
+Azure      : success=1, failed=0
+ThingsBoard: success=1, failed=0
+Database   : total=2, azurePending=0, thingsboardPending=0
+
+
+############################################################################
+[2026-08-12 13:54:04] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.0 °C
+Humidity    : 52.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 3)
+
+--- Cloud queue status ---
+Total records       : 3
+Azure pending       : 1
+ThingsBoard pending : 1
+
+Next edge cycle in 5 seconds...
+
+--- Dual-cloud sync ---
+Azure queue: 1 pending record(s)
+  Azure Record 3: SUCCESS
+ThingsBoard queue: 1 pending record(s)
+
+
+############################################################################
+[2026-08-12 13:54:09] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.1 °C
+Humidity    : 52.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 4)
+
+--- Cloud queue status ---
+Total records       : 4
+Azure pending       : 1
+ThingsBoard pending : 2
+
+Next edge cycle in 5 seconds...
+  ThingsBoard Record 3: SUCCESS
+Sync result:
+Azure      : success=1, failed=0
+ThingsBoard: success=1, failed=0
+Database   : total=4, azurePending=1, thingsboardPending=1
+
+
+############################################################################
+[2026-08-12 13:54:15] EDGE CYCLE
+############################################################################
+
+--- Dual-cloud sync ---
+Azure queue: 1 pending record(s)
+  Azure Record 4: SUCCESS
+ThingsBoard queue: 1 pending record(s)
+
+--- Edge status ---
+Temperature : 26.2 °C
+Humidity    : 52.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 5)
+
+--- Cloud queue status ---
+Total records       : 5
+Azure pending       : 1
+ThingsBoard pending : 2
+
+Next edge cycle in 5 seconds...
+  ThingsBoard Record 4: SUCCESS
+Sync result:
+Azure      : success=1, failed=0
+ThingsBoard: success=1, failed=0
+Database   : total=5, azurePending=1, thingsboardPending=1
+
+
+############################################################################
+[2026-08-12 13:54:20] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.9 °C
+Humidity    : 52.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 6)
+
+--- Cloud queue status ---
+Total records       : 6
+Azure pending       : 2
+ThingsBoard pending : 2
+
+Next edge cycle in 5 seconds...
+
+--- Dual-cloud sync ---
+Azure queue: 2 pending record(s)
+  Azure Record 5: SUCCESS
+  Azure Record 6: SUCCESS
+ThingsBoard queue: 2 pending record(s)
+  ThingsBoard Record 5: SUCCESS
+  ThingsBoard Record 6: SUCCESS
+Sync result:
+Azure      : success=2, failed=0
+ThingsBoard: success=2, failed=0
+Database   : total=6, azurePending=0, thingsboardPending=0
+
+
+############################################################################
+[2026-08-12 13:54:25] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.9 °C
+Humidity    : 52.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 7)
+
+--- Cloud queue status ---
+Total records       : 7
+Azure pending       : 1
+ThingsBoard pending : 1
+
+Next edge cycle in 5 seconds...
+
+--- Dual-cloud sync ---
+Azure queue: 1 pending record(s)
+
+
+############################################################################
+[2026-08-12 13:54:31] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.9 °C
+Humidity    : 52.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 8)
+
+--- Cloud queue status ---
+Total records       : 8
+Azure pending       : 2
+ThingsBoard pending : 2
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:54:36] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.3 °C
+Humidity    : 52.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 9)
+
+--- Cloud queue status ---
+Total records       : 9
+Azure pending       : 3
+ThingsBoard pending : 3
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:54:42] EDGE CYCLE
+############################################################################
+  DHT11 attempt 1/5 failed: Checksum did not validate. Try again.
+
+--- Edge status ---
+Temperature : 26.8 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 10)
+
+--- Cloud queue status ---
+Total records       : 10
+Azure pending       : 4
+ThingsBoard pending : 4
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:54:49] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.7 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 11)
+
+--- Cloud queue status ---
+Total records       : 11
+Azure pending       : 5
+ThingsBoard pending : 5
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:54:55] EDGE CYCLE
+############################################################################
+  DHT11 attempt 1/5 failed: Checksum did not validate. Try again.
+
+--- Edge status ---
+Temperature : 26.7 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 12)
+
+--- Cloud queue status ---
+Total records       : 12
+Azure pending       : 6
+ThingsBoard pending : 6
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:55:02] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.4 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 13)
+
+--- Cloud queue status ---
+Total records       : 13
+Azure pending       : 7
+ThingsBoard pending : 7
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:55:08] EDGE CYCLE
+############################################################################
+  DHT11 attempt 1/5 failed: Checksum did not validate. Try again.
+
+--- Edge status ---
+Temperature : 26.2 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 14)
+
+--- Cloud queue status ---
+Total records       : 14
+Azure pending       : 8
+ThingsBoard pending : 8
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:55:16] EDGE CYCLE
+############################################################################
+  DHT11 attempt 1/5 failed: Checksum did not validate. Try again.
+
+--- Edge status ---
+Temperature : 26.1 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 15)
+
+--- Cloud queue status ---
+Total records       : 15
+Azure pending       : 9
+ThingsBoard pending : 9
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:55:23] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.2 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 16)
+
+--- Cloud queue status ---
+Total records       : 16
+Azure pending       : 10
+ThingsBoard pending : 10
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:55:29] EDGE CYCLE
+############################################################################
+  DHT11 attempt 1/5 failed: Checksum did not validate. Try again.
+
+--- Edge status ---
+Temperature : 26.8 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 17)
+
+--- Cloud queue status ---
+Total records       : 17
+Azure pending       : 11
+ThingsBoard pending : 11
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:55:36] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.2 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 18)
+
+--- Cloud queue status ---
+Total records       : 18
+Azure pending       : 12
+ThingsBoard pending : 12
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:55:42] EDGE CYCLE
+############################################################################
+  DHT11 attempt 1/5 failed: Checksum did not validate. Try again.
+
+--- Edge status ---
+Temperature : 26.9 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 19)
+
+--- Cloud queue status ---
+Total records       : 19
+Azure pending       : 13
+ThingsBoard pending : 13
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:55:50] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.6 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 20)
+
+--- Cloud queue status ---
+Total records       : 20
+Azure pending       : 14
+ThingsBoard pending : 14
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:55:55] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.1 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 21)
+
+--- Cloud queue status ---
+Total records       : 21
+Azure pending       : 15
+ThingsBoard pending : 15
+
+Next edge cycle in 5 seconds...
+ConnectionStateStage: DisconnectEvent received while in unexpected state - ConnectionState.DISCONNECTED
+Exception caught in background thread.  Unable to handle.
+['azure.iot.device.common.transport_exceptions.ConnectionDroppedError: Unexpected disconnection\n']
+Exception caught in background thread.  Unable to handle.
+['azure.iot.device.common.transport_exceptions.ConnectionDroppedError: Unexpected disconnection\n']
+Exception caught in background thread.  Unable to handle.
+['azure.iot.device.common.transport_exceptions.ConnectionFailedError\n']
+
+
+############################################################################
+[2026-08-12 13:56:00] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.3 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 22)
+
+--- Cloud queue status ---
+Total records       : 22
+Azure pending       : 16
+ThingsBoard pending : 16
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:56:06] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.8 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 23)
+
+--- Cloud queue status ---
+Total records       : 23
+Azure pending       : 17
+ThingsBoard pending : 17
+
+Next edge cycle in 5 seconds...
+Exception caught in background thread.  Unable to handle.
+['azure.iot.device.common.transport_exceptions.ConnectionFailedError\n']
+
+
+############################################################################
+[2026-08-12 13:56:11] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.1 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 24)
+
+--- Cloud queue status ---
+Total records       : 24
+Azure pending       : 18
+ThingsBoard pending : 18
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:56:16] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.7 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 25)
+
+--- Cloud queue status ---
+Total records       : 25
+Azure pending       : 19
+ThingsBoard pending : 19
+
+Next edge cycle in 5 seconds...
+Exception caught in background thread.  Unable to handle.
+['azure.iot.device.common.transport_exceptions.ConnectionFailedError\n']
+
+
+############################################################################
+[2026-08-12 13:56:22] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.5 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 26)
+
+--- Cloud queue status ---
+Total records       : 26
+Azure pending       : 20
+ThingsBoard pending : 20
+
+Next edge cycle in 5 seconds...
+Exception caught in background thread.  Unable to handle.
+['azure.iot.device.common.transport_exceptions.ConnectionFailedError\n']
+
+
+############################################################################
+[2026-08-12 13:56:27] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.0 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 27)
+
+--- Cloud queue status ---
+Total records       : 27
+Azure pending       : 21
+ThingsBoard pending : 21
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:56:33] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.0 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 28)
+
+--- Cloud queue status ---
+Total records       : 28
+Azure pending       : 22
+ThingsBoard pending : 22
+
+Next edge cycle in 5 seconds...
+Exception caught in background thread.  Unable to handle.
+['azure.iot.device.common.transport_exceptions.ConnectionFailedError\n']
+
+
+############################################################################
+[2026-08-12 13:56:38] EDGE CYCLE
+############################################################################
+  DHT11 attempt 1/5 failed: Checksum did not validate. Try again.
+
+--- Edge status ---
+Temperature : 26.4 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 29)
+
+--- Cloud queue status ---
+Total records       : 29
+Azure pending       : 23
+ThingsBoard pending : 23
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:56:46] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.4 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 30)
+
+--- Cloud queue status ---
+Total records       : 30
+Azure pending       : 24
+ThingsBoard pending : 24
+
+Next edge cycle in 5 seconds...
+Exception caught in background thread.  Unable to handle.
+['azure.iot.device.common.transport_exceptions.ConnectionFailedError\n']
+
+
+############################################################################
+[2026-08-12 13:56:51] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.0 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 31)
+
+--- Cloud queue status ---
+Total records       : 31
+Azure pending       : 25
+ThingsBoard pending : 25
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:56:57] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.7 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 32)
+
+--- Cloud queue status ---
+Total records       : 32
+Azure pending       : 26
+ThingsBoard pending : 26
+
+Next edge cycle in 5 seconds...
+Exception caught in background thread.  Unable to handle.
+['azure.iot.device.common.transport_exceptions.ConnectionFailedError\n']
+
+
+############################################################################
+[2026-08-12 13:57:02] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.0 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 33)
+
+--- Cloud queue status ---
+Total records       : 33
+Azure pending       : 27
+ThingsBoard pending : 27
+
+Next edge cycle in 5 seconds...
+Exception caught in background thread.  Unable to handle.
+['azure.iot.device.common.transport_exceptions.ConnectionFailedError\n']
+
+
+############################################################################
+[2026-08-12 13:57:07] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.5 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 34)
+
+--- Cloud queue status ---
+Total records       : 34
+Azure pending       : 28
+ThingsBoard pending : 28
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:57:13] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.2 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 35)
+
+--- Cloud queue status ---
+Total records       : 35
+Azure pending       : 29
+ThingsBoard pending : 29
+
+Next edge cycle in 5 seconds...
+Exception caught in background thread.  Unable to handle.
+['azure.iot.device.common.transport_exceptions.ConnectionFailedError\n']
+
+
+############################################################################
+[2026-08-12 13:57:18] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.8 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 36)
+
+--- Cloud queue status ---
+Total records       : 36
+Azure pending       : 30
+ThingsBoard pending : 30
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:57:23] EDGE CYCLE
+############################################################################
+  DHT11 attempt 1/5 failed: Checksum did not validate. Try again.
+
+--- Edge status ---
+Temperature : 26.6 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 37)
+
+--- Cloud queue status ---
+Total records       : 37
+Azure pending       : 31
+ThingsBoard pending : 31
+
+Next edge cycle in 5 seconds...
+Exception caught in background thread.  Unable to handle.
+['azure.iot.device.common.transport_exceptions.ConnectionFailedError\n']
+
+
+############################################################################
+[2026-08-12 13:57:31] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.7 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 38)
+
+--- Cloud queue status ---
+Total records       : 38
+Azure pending       : 32
+ThingsBoard pending : 32
+
+Next edge cycle in 5 seconds...
+
+
+############################################################################
+[2026-08-12 13:57:37] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.0 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 39)
+
+--- Cloud queue status ---
+Total records       : 39
+Azure pending       : 33
+ThingsBoard pending : 33
+
+Next edge cycle in 5 seconds...
+  Azure Record 7: SUCCESS
+ThingsBoard queue: 20 pending record(s)
+
+
+############################################################################
+[2026-08-12 13:57:42] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.8 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+  ThingsBoard Record 7: SUCCESS
+
+SQLite save : SUCCESS (Record 40)
+
+--- Cloud queue status ---
+Total records       : 40
+Azure pending       : 33
+ThingsBoard pending : 33
+
+Next edge cycle in 5 seconds...
+  ThingsBoard Record 8: SUCCESS
+
+
+############################################################################
+[2026-08-12 13:57:47] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.8 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 41)
+
+--- Cloud queue status ---
+Total records       : 41
+Azure pending       : 34
+ThingsBoard pending : 33
+
+Next edge cycle in 5 seconds...
+  ThingsBoard Record 9: SUCCESS
+  ThingsBoard Record 10: SUCCESS
+  ThingsBoard Record 11: SUCCESS
+  ThingsBoard Record 12: SUCCESS
+
+
+############################################################################
+[2026-08-12 13:57:53] EDGE CYCLE
+############################################################################
+  ThingsBoard Record 13: SUCCESS
+
+--- Edge status ---
+Temperature : 26.8 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 42)
+
+--- Cloud queue status ---
+Total records       : 42
+Azure pending       : 35
+ThingsBoard pending : 29
+
+Next edge cycle in 5 seconds...
+  ThingsBoard Record 14: SUCCESS
+  ThingsBoard Record 15: SUCCESS
+  ThingsBoard Record 16: SUCCESS
+  ThingsBoard Record 17: SUCCESS
+  ThingsBoard Record 18: SUCCESS
+
+
+############################################################################
+[2026-08-12 13:57:58] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.6 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 43)
+
+--- Cloud queue status ---
+Total records       : 43
+Azure pending       : 36
+ThingsBoard pending : 25
+
+Next edge cycle in 5 seconds...
+  ThingsBoard Record 19: SUCCESS
+  ThingsBoard Record 20: SUCCESS
+  ThingsBoard Record 21: SUCCESS
+  ThingsBoard Record 22: SUCCESS
+  ThingsBoard Record 23: SUCCESS
+
+
+############################################################################
+[2026-08-12 13:58:03] EDGE CYCLE
+############################################################################
+  DHT11 attempt 1/5 failed: A full buffer was not returned. Try again.
+
+--- Edge status ---
+Temperature : 26.6 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 44)
+
+--- Cloud queue status ---
+Total records       : 44
+Azure pending       : 37
+ThingsBoard pending : 21
+
+Next edge cycle in 5 seconds...
+  ThingsBoard Record 24: SUCCESS
+  ThingsBoard Record 25: SUCCESS
+
+
+############################################################################
+[2026-08-12 13:58:11] EDGE CYCLE
+############################################################################
+  ThingsBoard Record 26: SUCCESS
+Sync result:
+Azure      : success=1, failed=0
+ThingsBoard: success=20, failed=0
+Database   : total=44, azurePending=37, thingsboardPending=18
+  DHT11 attempt 1/5 failed: A full buffer was not returned. Try again.
+
+--- Edge status ---
+Temperature : 26.0 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 45)
+
+--- Cloud queue status ---
+Total records       : 45
+Azure pending       : 38
+ThingsBoard pending : 19
+
+Next edge cycle in 5 seconds...
+
+--- Dual-cloud sync ---
+Azure queue: 20 pending record(s)
+  Azure Record 8: SUCCESS
+  Azure Record 9: SUCCESS
+  Azure Record 10: SUCCESS
+  Azure Record 11: SUCCESS
+  Azure Record 12: SUCCESS
+  Azure Record 13: SUCCESS
+  Azure Record 14: SUCCESS
+  Azure Record 15: SUCCESS
+  Azure Record 16: SUCCESS
+  Azure Record 17: SUCCESS
+  Azure Record 18: SUCCESS
+  Azure Record 19: SUCCESS
+  Azure Record 20: SUCCESS
+  Azure Record 21: SUCCESS
+  Azure Record 22: SUCCESS
+
+
+############################################################################
+[2026-08-12 13:58:19] EDGE CYCLE
+############################################################################
+  Azure Record 23: SUCCESS
+  Azure Record 24: SUCCESS
+--- Edge status ---
+Temperature : 26.6 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+
+SQLite save : SUCCESS (Record 46)
+
+--- Cloud queue status ---
+Total records       : 46
+Azure pending       : 22
+ThingsBoard pending : 20
+
+Next edge cycle in 5 seconds...
+  Azure Record 25: SUCCESS
+  Azure Record 26: SUCCESS
+  Azure Record 27: SUCCESS
+ThingsBoard queue: 20 pending record(s)
+  ThingsBoard Record 27: SUCCESS
+  ThingsBoard Record 28: SUCCESS
+  ThingsBoard Record 29: SUCCESS
+  ThingsBoard Record 30: SUCCESS
+
+
+############################################################################
+[2026-08-12 13:58:24] EDGE CYCLE
+############################################################################
+  ThingsBoard Record 31: SUCCESS
+  DHT11 attempt 1/5 failed: Checksum did not validate. Try again.
+  ThingsBoard Record 32: SUCCESS
+  ThingsBoard Record 33: SUCCESS
+
+--- Edge status ---
+Temperature : 26.8 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 47)
+
+--- Cloud queue status ---
+Total records       : 47
+Azure pending       : 20
+ThingsBoard pending : 14
+
+Next edge cycle in 5 seconds...
+  ThingsBoard Record 34: SUCCESS
+  ThingsBoard Record 35: SUCCESS
+  ThingsBoard Record 36: SUCCESS
+
+
+############################################################################
+[2026-08-12 13:58:32] EDGE CYCLE
+############################################################################
+
+--- Edge status ---
+Temperature : 26.9 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 48)
+
+--- Cloud queue status ---
+Total records       : 48
+Azure pending       : 21
+ThingsBoard pending : 12
+
+Next edge cycle in 5 seconds...
+  ThingsBoard Record 37: SUCCESS
+  ThingsBoard Record 38: SUCCESS
+  ThingsBoard Record 39: SUCCESS
+  ThingsBoard Record 40: SUCCESS
+  ThingsBoard Record 41: SUCCESS
+  ThingsBoard Record 42: SUCCESS
+
+
+############################################################################
+[2026-08-12 13:58:38] EDGE CYCLE
+############################################################################
+  DHT11 attempt 1/5 failed: Checksum did not validate. Try again.
+  ThingsBoard Record 43: SUCCESS
+  ThingsBoard Record 44: SUCCESS
+  DHT11 attempt 2/5 failed: Checksum did not validate. Try again.
+  ThingsBoard Record 45: SUCCESS
+  ThingsBoard Record 46: SUCCESS
+Sync result:
+Azure      : success=20, failed=0
+ThingsBoard: success=20, failed=0
+Database   : total=48, azurePending=21, thingsboardPending=2
+  DHT11 attempt 3/5 failed: Checksum did not validate. Try again.
+  DHT11 attempt 4/5 failed: Checksum did not validate. Try again.
+
+--- Dual-cloud sync ---
+Azure queue: 20 pending record(s)
+  Azure Record 28: SUCCESS
+  Azure Record 29: SUCCESS
+  Azure Record 30: SUCCESS
+  Azure Record 31: SUCCESS
+  Azure Record 32: SUCCESS
+  Azure Record 33: SUCCESS
+  Azure Record 34: SUCCESS
+  DHT11 attempt 5/5 failed: Checksum did not validate. Try again.
+
+====================================================================
+STATE CHANGED
+NORMAL -> SENSOR_ERROR
+====================================================================
+
+--- Edge status ---
+Temperature : unavailable
+Humidity    : unavailable
+Threshold   : 29.0 °C
+State       : SENSOR_ERROR
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 49)
+
+--- Cloud queue status ---
+Total records       : 49
+Azure pending       : 15
+ThingsBoard pending : 3
+
+Next edge cycle in 5 seconds...
+  Azure Record 35: SUCCESS
+  Azure Record 36: SUCCESS
+  Azure Record 37: SUCCESS
+  Azure Record 38: SUCCESS
+  Azure Record 39: SUCCESS
+  Azure Record 40: SUCCESS
+  Azure Record 41: SUCCESS
+  Azure Record 42: SUCCESS
+  Azure Record 43: SUCCESS
+  Azure Record 44: SUCCESS
+  Azure Record 45: SUCCESS
+  Azure Record 46: SUCCESS
+  Azure Record 47: SUCCESS
+ThingsBoard queue: 3 pending record(s)
+  ThingsBoard Record 47: SUCCESS
+
+
+############################################################################
+[2026-08-12 13:58:52] EDGE CYCLE
+############################################################################
+
+====================================================================
+STATE CHANGED
+SENSOR_ERROR -> NORMAL
+====================================================================
+
+--- Edge status ---
+Temperature : 26.0 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+  ThingsBoard Record 48: SUCCESS
+
+SQLite save : SUCCESS (Record 50)
+
+--- Cloud queue status ---
+Total records       : 50
+Azure pending       : 3
+ThingsBoard pending : 2
+
+Next edge cycle in 5 seconds...
+  ThingsBoard Record 49: SUCCESS
+Sync result:
+Azure      : success=20, failed=0
+ThingsBoard: success=3, failed=0
+Database   : total=50, azurePending=3, thingsboardPending=1
+
+
+############################################################################
+[2026-08-12 13:58:58] EDGE CYCLE
+############################################################################
+  DHT11 attempt 1/5 failed: Checksum did not validate. Try again.
+
+--- Dual-cloud sync ---
+Azure queue: 3 pending record(s)
+  Azure Record 48: SUCCESS
+  Azure Record 49: SUCCESS
+  Azure Record 50: SUCCESS
+ThingsBoard queue: 1 pending record(s)
+  DHT11 attempt 2/5 failed: Checksum did not validate. Try again.
+  ThingsBoard Record 50: SUCCESS
+Sync result:
+Azure      : success=3, failed=0
+ThingsBoard: success=1, failed=0
+Database   : total=50, azurePending=0, thingsboardPending=0
+
+--- Edge status ---
+Temperature : 26.6 °C
+Humidity    : 51.0 %
+Threshold   : 29.0 °C
+State       : NORMAL
+LED         : OFF
+Buzzer Event: False
+Fan Power   : False
+Fan Speed   : 1
+Oscillation : False
+
+SQLite save : SUCCESS (Record 51)
+
+--- Cloud queue status ---
+Total records       : 51
+Azure pending       : 1
+ThingsBoard pending : 1
+
+Next edge cycle in 5 seconds...

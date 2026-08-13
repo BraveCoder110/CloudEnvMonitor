@@ -1,0 +1,10 @@
+target_backlog,session,cutoff_record_id,initial_azure_backlog,initial_thingsboard_backlog,azure_first_progress_s,thingsboard_first_progress_s,azure_recovery_s,thingsboard_recovery_s,azure_effective_throughput_rps,thingsboard_effective_throughput_rps,result
+10,1,14,10,10,18.515,19.522,37.439,27.567,0.2671,0.3628,PASS
+10,2,13,10,10,19.722,20.727,39.061,28.982,0.256,0.345,PASS
+10,3,13,10,10,23.535,24.541,43.72,32.817,0.2287,0.3047,PASS
+30,1,34,30,30,6.835,7.841,54.036,42.116,0.5552,0.7123,PASS
+30,2,33,30,30,12.668,13.676,60.202,47.722,0.4983,0.6286,PASS
+30,3,36,30,30,13.483,18.309,83.546,66.243,0.3591,0.4529,PASS
+60,1,63,60,60,7.655,8.865,87.216,79.163,0.6879,0.7579,PASS
+60,2,65,60,60,8.043,8.847,86.343,78.5,0.6949,0.7643,PASS
+60,3,65,60,60,4.021,5.027,82.521,74.675,0.7271,0.8035,PASS

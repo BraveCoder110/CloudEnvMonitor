@@ -1,0 +1,2 @@
+target_backlog,session,cutoff_record_id,initial_azure_backlog,initial_thingsboard_backlog,started_at,finished_at,azure_first_progress_s,thingsboard_first_progress_s,azure_recovery_s,thingsboard_recovery_s,azure_effective_throughput_rps,thingsboard_effective_throughput_rps,monitor_duration_s,result
+30,3,36,30,30,2026-08-12T13:57:24.693787+08:00,2026-08-12T13:58:48.241009+08:00,13.483,18.309,83.546,66.243,0.3591,0.4529,83.547,PASS

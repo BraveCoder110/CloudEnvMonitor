@@ -1,0 +1,2 @@
+session,monitor_started_at,monitor_finished_at,cutoff_record_id,minimum_required_backlog,initial_azure_backlog,initial_thingsboard_backlog,azure_first_decrease_time_s,thingsboard_first_decrease_time_s,azure_recovery_time_s,thingsboard_recovery_time_s,azure_effective_backfill_throughput_records_per_s,thingsboard_effective_backfill_throughput_records_per_s,monitor_duration_s,result
+3,2026-08-12T13:04:56.166746+08:00,2026-08-12T13:05:43.076602+08:00,25,20,22,22,8.858,9.662,46.906,36.445,0.469,0.6037,46.91,PASS

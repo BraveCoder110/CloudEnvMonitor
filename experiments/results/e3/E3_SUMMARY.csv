@@ -1,0 +1,4 @@
+session,cutoff_record_id,azure_initial_backlog,thingsboard_initial_backlog,azure_first_progress_s,thingsboard_first_progress_s,azure_recovery_s,thingsboard_recovery_s,azure_throughput_rps,thingsboard_throughput_rps,result
+1,28,23,24,7.441,8.647,48.692,37.228,0.4724,0.6447,PASS
+2,26,22,22,14.489,15.297,53.375,41.899,0.4122,0.5251,PASS
+3,25,22,22,8.858,9.662,46.906,36.445,0.469,0.6037,PASS

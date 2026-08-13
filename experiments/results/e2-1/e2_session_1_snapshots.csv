@@ -1,0 +1,4 @@
+session,stage,timestamp,total_records,max_record_id,azure_pending,thingsboard_pending
+1,pre,2026-08-12T09:22:48.784468+08:00,1266,1266,0,0
+1,offline_end,2026-08-12T09:25:34.262515+08:00,1290,1290,20,14
+1,recovered,2026-08-12T09:28:42.794211+08:00,1322,1322,1,1
