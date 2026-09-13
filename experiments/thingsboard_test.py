@@ -2,7 +2,8 @@ import requests
 import random
 import time
 
-url = "https://thingsboard.cloud/api/v1/nbvxd094sw236rr7i2kk/telemetry"
+# url = "https://thingsboard.cloud/api/v1/nbvxd094sw236rr7i2kk/telemetry"
+url = "https://thingsboard.cloud/api/v1/fnwMAucWvPLxqheIdcig/telemetry"
 
 headers = {
     "Content-Type": "text/plain"
